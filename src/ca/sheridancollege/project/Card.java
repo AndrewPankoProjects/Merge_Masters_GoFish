@@ -10,6 +10,7 @@ package ca.sheridancollege.project;
  * game. Students wishing to add to the code should remember to add themselves as a modifier.
  *
  * @author dancye
+ * @modifier Vanshdeep Singh (991660297)
  */
 public abstract class Card {
     //default modifier for child classes
@@ -19,6 +20,18 @@ public abstract class Card {
      *
      * @return a String representation of a card. Could be an UNO card, a regular playing card etc.
      */
+    
+    private String rank;
+    private String suit;
+    
+    public String getRank(){
+        return this.rank;
+    }
+    
+    public String getSuit(){
+        return this.suit;
+    }
+    
     @Override
     public abstract String toString();
 
