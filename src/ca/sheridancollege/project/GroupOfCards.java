@@ -19,7 +19,7 @@ import java.util.Collections;
 public class GroupOfCards {
 
     //The group of cards, stored in an ArrayList
-    private ArrayList<Card> cards;
+    private ArrayList<GoFishCard> cards;
     private int size;//the size of the grouping
 
     public GroupOfCards(int size) {
@@ -31,8 +31,15 @@ public class GroupOfCards {
      *
      * @return the group of cards.
      */
-    public ArrayList<Card> getCards() {
-        return cards;
+    public ArrayList<GoFishCard> getCards() {
+        this.cards = new ArrayList<GoFishCard>();
+
+        for (String suit : GoFishCard.SUITS) {
+            for (String value : GoFishCard.VALUES){
+                this.cards.add(new GoFishCard(value, suit));
+            }
+        }
+        return this.cards;
     }
 
     public void shuffle() {
