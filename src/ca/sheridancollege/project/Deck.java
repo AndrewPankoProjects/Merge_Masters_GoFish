@@ -15,35 +15,28 @@ import java.util.Collections;
  *
  * @author dancye
  * @author Paul Bonenfant Jan 2020
+ * @modifed Andrew Panko March 2025
  */
-public class GroupOfCards {
+public class Deck {
 
     //The group of cards, stored in an ArrayList
     private ArrayList<GoFishCard> cards;
     private int size;//the size of the grouping
 
-    public GroupOfCards(int size) {
-        this.size = size;
-    }
-
-    /**
-     * A method that will get the group of cards as an ArrayList
-     *
-     * @return the group of cards.
-     */
-    public ArrayList<GoFishCard> getCards() {
+    public Deck() {
         this.cards = new ArrayList<GoFishCard>();
 
         for (String suit : GoFishCard.SUITS) {
-            for (String value : GoFishCard.VALUES){
-                this.cards.add(new GoFishCard(value, suit));
+            for (String rank : GoFishCard.VALUES) {
+                this.cards.add(new GoFishCard(rank, suit));
             }
         }
-        return this.cards;
+        Collections.shuffle(this.cards);
     }
 
-    public void shuffle() {
-        Collections.shuffle(cards);
+    //Draw function
+    public GoFishCard drawCard() {
+        return this.cards.isEmpty() ? null : this.cards.remove(0);
     }
 
     /**
