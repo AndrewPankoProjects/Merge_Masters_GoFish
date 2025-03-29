@@ -11,9 +11,30 @@ public class GoFishGame extends Game{
     private int currentPlayerIndex = 0;
     private Scanner scanner = new Scanner(System.in);
 
-    public GoFishGame(List<String> playerNames) {
+    public GoFishGame() {
         super(new ArrayList<>()); // Call the parent constructor
         deck = new Deck(); // Assuming Deck constructor takes size as int
+
+        System.out.println("Welcome to Go Fish!");
+        Scanner scanner = new Scanner(System.in);
+        boolean validPlayers = false;
+        int numPlayers;
+        
+        do {
+            System.out.print("Enter number of players (Maximum 4): ");
+            numPlayers = scanner.nextInt();
+            scanner.nextLine(); 
+            if (numPlayers < 4 && numPlayers > 0){
+                validPlayers = true;
+            }
+        } while(!validPlayers);
+        
+        List<String> playerNames = new ArrayList<>();
+        
+        for (int i = 0; i < numPlayers; i++) {
+            System.out.print("Enter player " + (i + 1) + " name: ");
+            playerNames.add(scanner.nextLine());
+        }
 
         for (String name : playerNames) {
             GoFishPlayer player = new GoFishPlayer(name);
@@ -31,6 +52,19 @@ public class GoFishGame extends Game{
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size(); // Use .size() for ArrayList
         }
         declareWinner();
+    }
+
+    @Override
+    public void declareWinner() {
+        GoFishPlayer winner = null;
+        int maxBooks = 0;
+        for (GoFishPlayer player : players) {
+            if (player.getBooks() > maxBooks) {
+                maxBooks = player.getBooks();
+                winner = player;
+            }
+        }
+        System.out.println("\nGame Over! The winner is " + winner.getName() + " with " + maxBooks + " books.");
     }
 
     private void takeTurn(GoFishPlayer player) {
@@ -75,18 +109,4 @@ public class GoFishGame extends Game{
         }
         return true;
     }
-
-    @Override
-    public void declareWinner() {
-        GoFishPlayer winner = null;
-        int maxBooks = 0;
-        for (GoFishPlayer player : players) {
-            if (player.getBooks() > maxBooks) {
-                maxBooks = player.getBooks();
-                winner = player;
-            }
-        }
-        System.out.println("\nGame Over! The winner is " + winner.getName() + " with " + maxBooks + " books.");
-    }
-
 }
