@@ -4,42 +4,50 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class GoFishGame extends Game{
+public class GoFishGame extends Game {
 
     private Deck deck;
-    private ArrayList<GoFishPlayer> players = new ArrayList<GoFishPlayer>(); // Use Player here
+    private List<Player> players = new ArrayList<>();
     private int currentPlayerIndex = 0;
     private Scanner scanner = new Scanner(System.in);
 
-    public GoFishGame() {
-        super(new ArrayList<>()); // Call the parent constructor
-        deck = new Deck(); // Assuming Deck constructor takes size as int
+    private static GoFishGame instance = null;
 
+    private GoFishGame() {
+        super(new ArrayList<>());
         System.out.println("Welcome to Go Fish!");
-        Scanner scanner = new Scanner(System.in);
-        boolean validPlayers = false;
+        collectPlayers();
+    }
+
+    public static GoFishGame getInstance() {
+        if (instance == null) {
+            instance = new GoFishGame();
+        }
+        return instance;
+    }
+
+    public void collectPlayers() {
+        deck = new Deck();
         int numPlayers;
-        
+        boolean validPlayers = false;
+
         do {
-            System.out.print("Enter number of players (Maximum 4): ");
+            System.out.print("Enter number of players (2-4): ");
             numPlayers = scanner.nextInt();
-            scanner.nextLine(); 
-            if (numPlayers < 4 && numPlayers > 0){
+            scanner.nextLine();
+            if (numPlayers > 1 && numPlayers <= 4) {
                 validPlayers = true;
             }
-        } while(!validPlayers);
-        
-        List<String> playerNames = new ArrayList<>();
-        
+        } while (!validPlayers);
+
         for (int i = 0; i < numPlayers; i++) {
             System.out.print("Enter player " + (i + 1) + " name: ");
-            playerNames.add(scanner.nextLine());
-        }
+            String name = scanner.nextLine();
+            Player player = new GoFishPlayer(name);
 
-        for (String name : playerNames) {
-            GoFishPlayer player = new GoFishPlayer(name);
-            for (int i = 0; i < 5; i++) {
-                player.drawCard(deck); // Assuming drawCard is a method in Player
+            // Draw initial 5 cards
+            for (int j = 0; j < 5; j++) {
+                player.drawCard(deck);
             }
             players.add(player);
         }
@@ -47,18 +55,19 @@ public class GoFishGame extends Game{
 
     @Override
     public void play() {
-        while (!isGameOver()) { // Assuming isGameOver() returns true when the game is over
-            takeTurn(players.get(currentPlayerIndex)); // Use .get() for ArrayList
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.size(); // Use .size() for ArrayList
+        while (!isGameOver()) {
+            Player currentPlayer = players.get(currentPlayerIndex);
+            takeTurn(currentPlayer);
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         }
         declareWinner();
     }
 
     @Override
     public void declareWinner() {
-        GoFishPlayer winner = null;
+        Player winner = null;
         int maxBooks = 0;
-        for (GoFishPlayer player : players) {
+        for (Player player : players) {
             if (player.getBooks() > maxBooks) {
                 maxBooks = player.getBooks();
                 winner = player;
@@ -67,33 +76,34 @@ public class GoFishGame extends Game{
         System.out.println("\nGame Over! The winner is " + winner.getName() + " with " + maxBooks + " books.");
     }
 
-    private void takeTurn(GoFishPlayer player) {
+    private void takeTurn(Player player) {
         System.out.println("\n" + player.getName() + "'s turn.");
         player.showHand();
 
         System.out.print("Choose a player to ask: ");
         String opponentName = scanner.nextLine();
-        GoFishPlayer opponent = findPlayerByName(opponentName);
+        Player opponent = findPlayerByName(opponentName);
+
         if (opponent == null || opponent == player) {
             System.out.println("Invalid choice.");
             return;
         }
 
-        System.out.print("Ask for a rank (e.g., 'A' for Ace): ");
-        String rank = scanner.nextLine();
+        System.out.print("Ask for a value (e.g., 'Ace', 'Queen', 'Seven'): ");
+        String value = scanner.nextLine();
 
-        if (opponent.hasRank(rank)) {
-            List<GoFishCard> receivedCards = opponent.giveCards(rank);
-            System.out.println(opponent.getName() + " gave you " + receivedCards.size() + " " + rank + "(s).");
+        if (opponent.hasValue(value)) {
+            List<GoFishCard> receivedCards = opponent.giveCards(value);
+            System.out.println(opponent.getName() + " gave you " + receivedCards.size() + " " + value + "(s).");
             player.addCards(receivedCards);
         } else {
-            System.out.println("Go Fish!");
+            System.out.println(opponentName + " says Go Fish!");
             player.drawCard(deck);
         }
     }
 
-    private GoFishPlayer findPlayerByName(String name) {
-        for (GoFishPlayer player : players) {
+    private Player findPlayerByName(String name) {
+        for (Player player : players) {
             if (player.getName().equalsIgnoreCase(name)) {
                 return player;
             }
@@ -102,7 +112,7 @@ public class GoFishGame extends Game{
     }
 
     private boolean isGameOver() {
-        for (GoFishPlayer player : players) {
+        for (Player player : players) {
             if (player.hasCards()) {
                 return false;
             }
