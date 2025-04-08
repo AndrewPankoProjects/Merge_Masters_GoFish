@@ -1,8 +1,3 @@
-/**
- * SYST 17796 Project Base code.
- * Students can modify and extend to implement their game.
- * Add your name as an author and the date!
- */
 package ca.sheridancollege.project;
 
 import java.util.ArrayList;
@@ -13,15 +8,18 @@ import java.util.ArrayList;
  *
  * @author dancye
  * @author Paul Bonenfant Jan 2020
+ * @modified Andrew Panko
+ * 
+ * Class is being used as the Parent class of GoFishGame
  */
 public abstract class Game {
 
-    private final String name;//the title of the game
+    private String name;//the title of the game
     private ArrayList<Player> players;// the players of the game
 
-    public Game(String name) {
-        this.name = name;
-        players = new ArrayList();
+    public Game(ArrayList<Player> players){
+        //this.name = name;
+        this.players = players;
     }
 
     /**

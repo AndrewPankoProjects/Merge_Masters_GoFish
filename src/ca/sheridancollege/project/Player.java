@@ -1,49 +1,33 @@
+package ca.sheridancollege.project;
+
 /**
  * SYST 17796 Project Base code.
  * Students can modify and extend to implement their game.
  * Add your name as an author and the date!
+ * @modified Andrew Panko April 7th, 2025
+ * 
+ * Player class adopts the Open/Closed Principle as the Player interface allows
+ * new types/subclasses of players to be created without modifying any functionality 
+ * of GoFishGame
+ * 
+ * For example: Adding a subclass AI GoFishPlayer subclass that can be used in the GoFishGame instead of real players
+ *              being added...
+ * 
+ * Player interface is adopting Interface Segregation Principle
+ * As the class focused on only providing functionality of what a
+ * player would NEED in order to play the game of Go Fish
  */
-package ca.sheridancollege.project;
 
-/**
- * A class that models each Player in the game. Players have an identifier, which should be unique.
- *
- * @author dancye
- * @author Paul Bonenfant Jan 2020
- */
-public abstract class Player {
+import java.util.List;
 
-    private String name; //the unique name for this player
-
-    /**
-     * A constructor that allows you to set the player's unique ID
-     *
-     * @param name the unique ID to assign to this player.
-     */
-    public Player(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the player name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Ensure that the playerID is unique
-     *
-     * @param name the player name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * The method to be overridden when you subclass the Player class with your specific type of Player and filled in
-     * with logic to play your game.
-     */
-    public abstract void play();
-
+public interface Player {
+    String getName();
+    boolean hasCards();
+    int getBooks();
+    void drawCard(Deck deck);
+    boolean hasValue(String value); 
+    List<GoFishCard> giveCards(String value); 
+    void addCards(List<GoFishCard> cards);
+    void showHand();
 }
+
