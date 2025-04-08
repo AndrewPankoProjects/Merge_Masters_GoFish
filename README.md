@@ -3,7 +3,7 @@
   <h1>🎣 Go Fish! 🎣</h1>
 
   <p>
-    The digital version of the classic card game is now complete! We hope you enjoy playing.
+    A digital console-based version of the classic card game built using object-oriented design principles.
   </p>
 
   <p>
@@ -24,60 +24,98 @@
 
 ## ✨ About the Project
 
-This project successfully brings the fun and simplicity of the "Go Fish!" card game to a digital platform. We've focused on creating an engaging and intuitive experience for players of all ages.
+This project brings the traditional *Go Fish* card game to life through a text-based console application. Developed using strong object-oriented programming principles, the game allows 2–4 players to enjoy a full playthrough of Go Fish in a Java environment.
 
-## 📜 Coding Standards
+---
 
-Throughout the development of this project, we adhered to the following principles to ensure a clean and well-structured codebase:
+## 🧠 Object-Oriented Design Principles Used
 
-* **Object-Oriented Programming (OOP):** Utilizing classes and objects to model the game elements and logic.
-* **Strong Cohesion:** Ensuring that classes and modules have a single, well-defined responsibility.
-* **Loose Coupling:** Minimizing dependencies between different parts of the system to improve maintainability and flexibility.
-* **Encapsulation:** Hiding the internal details of classes and exposing only necessary interfaces to the user.
+We designed this project with industry-standard coding principles in mind:
 
-## 🛠️ Tools & Technologies
+- *Single Responsibility Principle (SRP):* Each class handles one job only (e.g., Deck manages cards, GoFishGame runs the game flow).
+- *Open/Closed Principle (OCP):* Interfaces like Player allow us to introduce new player types (e.g., AI) without modifying existing game logic.
+- *Liskov Substitution Principle (LSP):* The Player interface allows any implementation to be used polymorphically within the game.
+- *Interface Segregation Principle (ISP):* The Player interface only includes essential game-related behaviors.
+- *Dependency Inversion Principle (DIP):* GoFishGame depends on the Player abstraction, not on specific implementations.
 
-This project was built using the following tools and technologies:
+---
 
-* **NetBeans:** Our primary Integrated Development Environment (IDE).
-* **Visual Paradigm:** Used for UML modeling and design.
-* **GitHub:** For version control and collaboration.
+## 🛠 Tools & Technologies
 
-## 🎉 Features
+- *Java (JDK 17)*
+- *NetBeans* – Primary IDE for development
+- *Visual Paradigm* – UML diagram creation
+- *GitHub* – Source control and collaboration
 
-Here are some of the key features of our completed "Go Fish!" game:
+---
 
-* [**Add a compelling list of the game's features here!** Examples:]
-    * Single-player mode against an intelligent AI opponent.
-    * Multiplayer mode for playing with friends online.
-    * A visually appealing and user-friendly interface.
-    * Customizable game settings (e.g., number of players).
-    * Clear and intuitive game controls.
-    * Score tracking and game history.
-    * [Add any other unique or important features]
+## 📂 Project Structure
 
-## 🕹️ How to Play
+- App.java – Launches the game using the Singleton GoFishGame instance  
+- GoFishGame.java – Controls the game logic, player turns, input handling, and winner declaration  
+- GoFishPlayer.java – Implements the Player interface and manages hand operations, book tracking  
+- Deck.java – Handles creation and shuffling of the Go Fish card deck  
+- GoFishCard.java – Represents individual cards (suit and value)  
+- Card.java – Abstract base class for card representation  
+- Game.java – Abstract parent for games like Go Fish  
+- Player.java – Interface defining essential methods for all player types
 
-[**Provide clear and concise instructions on how to play your digital version of "Go Fish!".** Be specific about the interface and controls.]
+---
+
+## 🎮 Features
+
+- Play Go Fish in a 2–4 player mode through the console
+- Randomized deck generation using Collections.shuffle()
+- Automatic book detection (four-of-a-kind)
+- Input prompts for asking cards and drawing
+- Winner is declared at the end based on number of books collected
+- Clean and readable game flow
+
+---
+
+## 🕹 How to Play
+
+1. Run the project from the App.java file.
+2. Enter the number of players (2–4).
+3. Enter player names when prompted.
+4. On each player's turn:
+   - Choose another player to ask for a specific card value.
+   - If the player has any matching cards, they are transferred to your hand.
+   - If not, “Go Fish!” — draw a card from the deck.
+5. If you collect four cards of the same value, a “book” is completed.
+6. The game continues until the deck is empty or no more moves are possible.
+7. The player with the most books wins!
+
+> All actions are handled via the console with clear prompts and responses.
+
+---
 
 ## 🤝 Contributions
 
-While the project is now complete, we appreciate any feedback or bug reports. If you encounter any issues or have suggestions for future improvements, please feel free to:
+This is a completed academic project, but feedback is always welcome!
 
-1.  Fork the repository.
-2.  Create a new branch for your issue or suggestion.
-3.  Describe the issue or suggestion in detail.
-4.  Submit a pull request.
+If you'd like to explore or extend the project:
+
+1. Fork the repository  
+2. Create a new branch  
+3. Commit your changes  
+4. Open a pull request with a description  
+
+---
 
 ## 📬 Contact
 
-If you have any questions or just want to say you enjoyed the game, feel free to reach out!
+For any feedback, collaboration, or questions:
 
-* [Your Email Address (Optional)](mailto:your.email@example.com)
-* [Your Twitter Handle (Optional)](https://twitter.com/your_twitter)
+- Andrew Panko (Project Leader)  
+- Vanshdeep Singh  
+- Komalpreet Kaur  
+- Eiknoor Kaur Batra  
+
+📫 Feel free to reach out via GitHub!
 
 ---
 
 <div align="center">
-  <sub>Successfully built with ❤️ by the Merge_Masters_GoFish team</sub>
+  <sub>🎓 Successfully built with ❤ by the Merge_Masters_GoFish team – Winter 2025</sub>
 </div>
