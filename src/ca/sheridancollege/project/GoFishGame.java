@@ -41,19 +41,29 @@ public class GoFishGame extends Game {
 
     public void collectPlayers() {
         deck = new Deck();
-        int numPlayers;
+        int numPlayers = 0;
         boolean validPlayers = false;
 
-        // Ensures players MUST be between 2-4 players +Durability
+        // Ensures players MUST be between 2-4 players
         do {
             System.out.print("Enter number of players (2-4): ");
-            numPlayers = scanner.nextInt();
-            scanner.nextLine();
-            if (numPlayers > 1 && numPlayers <= 4) {
-                validPlayers = true;
+            
+            if (scanner.hasNextInt()) {
+                numPlayers = scanner.nextInt();
+                scanner.nextLine();  // Clear the buffer after reading the integer
+                
+                if (numPlayers >= 2 && numPlayers <= 4) {
+                    validPlayers = true;
+                } else {
+                    System.out.println("Invalid number of players. Please enter a number between 2 and 4.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter an integer.");
+                scanner.nextLine(); // Clear the invalid input
             }
         } while (!validPlayers);
 
+        // Collecting player names and dealing initial cards
         for (int i = 0; i < numPlayers; i++) {
             System.out.print("Enter player " + (i + 1) + " name: ");
             String name = scanner.nextLine();
@@ -63,10 +73,11 @@ public class GoFishGame extends Game {
             for (int j = 0; j < 5; j++) {
                 player.drawCard(deck);
             }
+
             players.add(player);
         }
     }
-
+    
     @Override
     public void play() {
         while (!isGameOver()) {
