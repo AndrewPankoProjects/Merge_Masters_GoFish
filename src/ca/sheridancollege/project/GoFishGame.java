@@ -1,4 +1,17 @@
 package ca.sheridancollege.project;
+/**
+ * GoFishGame adopts Single Responsibility Principle
+ * by only controlling the flow of game
+ * 
+ * GoFishGame and GoFishPlayer are an example of Dependency Inversion Principle
+ * This is because GoFishGame doesn't depend on GoFishPlayer but instead depends 
+ * on the Player interface abstracted functions.
+ * 
+ * For example: I can have a player called GoFishPlayer that follows functionality of Go Fish
+ *              or a player called PokerPlayer that follows functionality of Poker
+ *              This means the relationship is now loosely coupled where I can interchange 
+ *              the Go Fish game for Poker as well
+ */
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +44,7 @@ public class GoFishGame extends Game {
         int numPlayers;
         boolean validPlayers = false;
 
+        // Ensures players MUST be between 2-4 players +Durability
         do {
             System.out.print("Enter number of players (2-4): ");
             numPlayers = scanner.nextInt();
@@ -79,16 +93,25 @@ public class GoFishGame extends Game {
     private void takeTurn(Player player) {
         System.out.println("\n" + player.getName() + "'s turn.");
         player.showHand();
-
-        System.out.print("Choose a player to ask: ");
-        String opponentName = scanner.nextLine();
-        Player opponent = findPlayerByName(opponentName);
-
-        if (opponent == null || opponent == player) {
-            System.out.println("Invalid choice.");
-            return;
-        }
-
+        boolean invalid = false;
+        Player opponent;
+        String opponentName;
+        
+        // Added do-while for durability when it comes to player inputs
+        do {
+            System.out.print("Choose a player to ask: ");
+            opponentName = scanner.nextLine();
+            opponent = findPlayerByName(opponentName);
+    
+            if (opponent == null || opponent == player) {
+                System.out.println("Invalid choice. Choose again...");
+                invalid = true;
+            }
+            else{
+                invalid = false;
+            }
+        }while (invalid);
+        
         System.out.print("Ask for a value (e.g., 'Ace', 'Queen', 'Seven'): ");
         String value = scanner.nextLine();
 
@@ -97,7 +120,7 @@ public class GoFishGame extends Game {
             System.out.println(opponent.getName() + " gave you " + receivedCards.size() + " " + value + "(s).");
             player.addCards(receivedCards);
         } else {
-            System.out.println(opponentName + " says Go Fish!");
+            System.out.println(opponentName + " says Go Fish!"); // More semantic
             player.drawCard(deck);
         }
     }

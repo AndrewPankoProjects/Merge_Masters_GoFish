@@ -1,5 +1,10 @@
 package ca.sheridancollege.project;
 
+/**
+ * GoFishCard adopts Single Responsibility Principle
+ * by only holding card data (value and suit)
+ */
+
 public class GoFishCard extends Card{
     
    private String suit; //clubs, spades, diamonds, hearts
